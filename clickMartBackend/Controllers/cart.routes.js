@@ -5,6 +5,20 @@ const { CartModel } = require("../models/cartModel");
 
 const cartController = express.Router();
 
+cartController.get("/all_cart_items",async(req,res)=>{
+    const {userId} = req.body;
+    try {
+        const all_cart_items = await CartModel.find({userId});
+        return res.json({message:"success",items:all_cart_items})
+    } catch (err) {
+        console.log(err);
+    }
+    
+})
+
+
+
+
 cartController.post("/add_item_in_cart", async (req, res) => {
   const { id, userId } = req.body;
 
