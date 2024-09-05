@@ -5,6 +5,9 @@ const { CartModel } = require("../models/cartModel");
 
 const cartController = express.Router();
 
+
+// Getting items from the carts
+
 cartController.get("/all_cart_items",async(req,res)=>{
     const {userId} = req.body;
     try {
@@ -17,7 +20,7 @@ cartController.get("/all_cart_items",async(req,res)=>{
 })
 
 
-
+// Adding items to the cart
 
 cartController.post("/add_item_in_cart", async (req, res) => {
   const { id, userId } = req.body;
@@ -60,6 +63,8 @@ cartController.post("/add_item_in_cart", async (req, res) => {
   }
 });
 
+//  Updaing items in the cart
+
 cartController.patch("/update_item_in_cart", async (req, res) => {
   const { id, count, userId } = req.body;
   console.log(id);
@@ -83,6 +88,7 @@ cartController.patch("/update_item_in_cart", async (req, res) => {
 });
 
 
+// Deleting items form carts
 
 cartController.delete("/delete_item_in_cart", async (req, res) => {
     const { id, userId } = req.body;

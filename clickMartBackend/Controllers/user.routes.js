@@ -47,8 +47,9 @@ userController.post("/signup", async (req, res) => {
   }
 });
 
-// User Login method here
 
+
+// User Login method here
 
 userController.post("/login", async (req, res) => {
   const { email, password } = req.body;

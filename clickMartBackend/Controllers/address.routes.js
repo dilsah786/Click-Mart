@@ -3,6 +3,9 @@ const { AddressModel } = require("../models/addressModel");
 
 const addressController = express.Router();
 
+
+//  Getting all addresses from the database by user Specific
+
 addressController.get("/all_addresses", async (req, res) => {
   const { userId } = req.body;
 
@@ -13,6 +16,9 @@ addressController.get("/all_addresses", async (req, res) => {
     console.log(err);
   }
 });
+
+
+// Adding a new address to the database by user Specific
 
 addressController.post("/add_new_address", async (req, res) => {
   const {
@@ -51,6 +57,9 @@ addressController.post("/add_new_address", async (req, res) => {
   }
 });
 
+
+// Updating addresses in the database by user Specific 
+
 addressController.patch("/update_address", async (req, res) => {
   const {
     _id,
@@ -69,7 +78,7 @@ addressController.patch("/update_address", async (req, res) => {
   try {
     const updatedAddress = await AddressModel.findOneAndUpdate(
       { _id, userId },
-      {
+      { _id,
         name,
         mobile,
         pincode,
@@ -80,7 +89,8 @@ addressController.patch("/update_address", async (req, res) => {
         alternateMobile,
         landmark,
         userId,
-      }
+      },
+      {new:true}
     );
 
     return res.json({
@@ -92,6 +102,9 @@ addressController.patch("/update_address", async (req, res) => {
   }
 });
 
+
+
+// Deleting addresses from database by user Specific
 
 addressController.delete("/delete_address",async(req,res)=>{
     const {userId,_id} = req.body;

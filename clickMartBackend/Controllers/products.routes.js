@@ -2,12 +2,18 @@ const express = require("express");
 const {ProductModel} = require("../models/productsModel")
 const productController = express.Router();
 
+
+
+// Grtting items from products
+
 productController.get("/", async (req, res) => {
   let products = [];
 
   const { sortBy, order, page, limit, category, brand, title, q } = req.query;
   const skipDataForPagination = (page - 1) * limit;
   const searchQuerry = q;
+
+  // Search functionality starts here
 
   try {
     if (searchQuerry) {
@@ -23,6 +29,12 @@ productController.get("/", async (req, res) => {
       return res.json({ status: "Here is your Search", data: products });
     }
 
+    
+  // Search functionality ends here
+
+
+  
+  // Pagination functionality starts here
     if (page && limit && order && sortBy) {
       if (order === "asc") {
         products = await ProductModel.find()
@@ -82,6 +94,9 @@ productController.get("/", async (req, res) => {
       return res.json({ status: "success combo", data: products });
     }
 
+    
+  // Pagination functionality ends here
+
     if (sortBy === "price" && order === "asc") {
       products = await ProductModel.find().sort({ price: 1 });
       return res.json({ products });
@@ -105,6 +120,9 @@ productController.get("/", async (req, res) => {
     console.log(error);
   }
 });
+
+
+// Getting items by ID
 
 productController.get("/:id", async (req, res) => {
   let id = req.params.id;
