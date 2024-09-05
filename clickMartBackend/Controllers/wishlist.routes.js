@@ -34,6 +34,12 @@ wishlistController.post("/add_item_in_wishlist", async (req, res) => {
     brand,
   } = singleItem;
 
+  const existingItemInWishlist = await WishlistModel.findOne({ id: id,userId });
+
+  if(existingItemInWishlist){
+    return res.json({message:"Item already exist in wishlist"})
+  }
+
   try {
     const newItemInWishlist = await WishlistModel.create({
       id,
@@ -71,7 +77,7 @@ wishlistController.delete("/delete_item_in_wishlist", async (req, res) => {
   const { title } = singleItem;
 
   try {
-    const newItemInWishlist = await WishlistModel.findOneAndDelete({
+    const deletedWishlistItem = await WishlistModel.findOneAndDelete({
       id,
       userId,
     });
