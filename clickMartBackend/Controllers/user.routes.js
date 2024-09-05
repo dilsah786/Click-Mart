@@ -3,6 +3,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UserModel } = require("../models/userModel");
+const e = require("express");
 require("dotenv").config();
 
 const userController = express.Router();
@@ -11,11 +12,19 @@ const userController = express.Router();
 // User Signup method here
 
 userController.post("/signup", async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword } = req.body;
+  let { firstName, lastName, email, password, confirmPassword } = req.body;
 
   if (!firstName || !lastName || !email || !password || !confirmPassword) {
     return res.json({ message: "Please enter all your information here" });
   }
+
+  email = email.toLowerCase()
+ 
+
+  if(password.length <8){
+    return res.json({message:"Password length must be more than 7 characters"})
+  }
+
   if (password !== confirmPassword) {
     return res.json({
       status: "Error",
@@ -53,14 +62,20 @@ userController.post("/signup", async (req, res) => {
 
 userController.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
+ 
   const user = await UserModel.findOne({ email });
 
+  if(!user){
+    return res.json({message:"User not found Please Signup first"})
+  }
+
+  
+ 
   const hashed_password = user.password;
   try {
     bcrypt.compare(password, hashed_password, async function (err, result) {
       if (err || !result) {
-        return json({
+        return res.json({
           status: "User not Logged in",
           message: "Please try to login again",
         });
