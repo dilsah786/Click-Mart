@@ -8,8 +8,7 @@ addressController.get("/all_addresses", async (req, res) => {
 
   try {
     const addresses = await AddressModel.find({ userId });
-
-    return res.json({ addresses });
+    return res.json({message:"Here is all your addresses", addresses });
   } catch (err) {
     console.log(err);
   }
@@ -94,6 +93,15 @@ addressController.patch("/update_address", async (req, res) => {
 });
 
 
+addressController.delete("/delete_address",async(req,res)=>{
+    const {userId,_id} = req.body;
+    try {
+        const deletedAddress = await AddressModel.findOneAndDelete({_id,userId});
+        res.json({message:"Address deleted successfully",address:deletedAddress})
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 
 
