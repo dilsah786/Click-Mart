@@ -13,9 +13,6 @@ const userController = express.Router();
 userController.post("/signup", async (req, res) => {
   const { firstName, lastName, email, password, confirmPassword } = req.body;
 
-  console.log(firstName,lastName,email,password,confirmPassword);
-
-
   if (!firstName || !lastName || !email || !password || !confirmPassword) {
     return res.json({ message: "Please enter all your information here" });
   }
