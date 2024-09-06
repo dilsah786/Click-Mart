@@ -8,11 +8,15 @@ import WIshListPage from '../Pages/WIshListPage'
 import AddressPage from '../Pages/AddressPage'
 import ProductPage from '../Pages/ProductPage'
 import SingleProduct from '../Pages/SingleProduct'
+import Contact from '../Pages/Contact'
+import About from '../Pages/About'
 
 const AllRoutes = () => {
   return (
    <Routes>
      <Route path='/' element={<HomePage/>}  />
+     <Route path='/contact' element={<Contact/>}  />
+     <Route path='/about' element={<About/>}  />
     <Route path='/login' element={<Login/>}  />
     <Route path='/signup' element={<Signup/>}  />
     <Route path='/cart-page' element={<CartPage/>}  />
