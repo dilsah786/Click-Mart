@@ -26,7 +26,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className={`min-h-screen py-12 px-6 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
+    <div className={`min-h-screen  py-12 px-6 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
       <div className="max-w-screen-xl mx-auto">
 
         {/* Page Header */}

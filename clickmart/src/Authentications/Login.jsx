@@ -7,6 +7,8 @@ const Login = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [token, setToken] = useState("");
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -17,6 +19,8 @@ const Login = () => {
 //   const apiUrl = import.meta.env.VITE_API_URL;
 
 //   console.log(apiUrl);
+
+console.log(token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,15 +36,29 @@ const Login = () => {
 
       const res = await result.json();
       console.log(res);
+      setMessage(res.message)
+      setToken(res.token);
+      localStorage.setItem("authToken",JSON.stringify(res.token))
       setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
 
+  console.log(message);
+
+  if(message){
+  return  alert(message)
+  }
+
+  if(token){
+    return <Navigate to={"/"} />
+  }
+
+
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <div className="flex flex-col lg:flex-row md:flex-row justify-center items-center border p-4 gap-4 shadow-xl">
+    <div className="flex flex-col justify-center items-center h-screen border lg:mt-16 mt-10">
+      <div className="flex flex-col lg:flex-row md:flex-row justify-center items-center border p-4 gap-4 shadow-xl lg:-mt-40">
         <div>
           <img
             src={bgImage}

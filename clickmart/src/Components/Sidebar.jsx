@@ -6,6 +6,7 @@ import { IoClose } from "react-icons/io5";
 import { CiHeart, CiShoppingCart } from "react-icons/ci";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import logo from "../assets/bg-4.png";
+import { CgProfile } from "react-icons/cg";
 
 const Sidebar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,9 +27,10 @@ const Sidebar = () => {
 
         {/* Icons (Search, Heart, Cart) */}
         <div className="flex gap-4">
+         <Link to={"/login"} > <CgProfile size={20} /></Link>
           <IoIosSearch size={20} />
-          <CiHeart size={20} />
-          <HiOutlineShoppingBag size={20} />
+         <Link to={"/wishlist"}>  <CiHeart size={20} /> </Link>
+         <Link to="/cart-page" >  <HiOutlineShoppingBag size={20} /></Link>
         </div>
       </div>
 
