@@ -35,12 +35,12 @@ userController.post("/signup", async (req, res) => {
   const existingUser = await UserModel.findOne({ email: email });
 
   if (existingUser) {
-    return res.json({ status: "User already exist Please Login" });
+    return res.json({ message: "User already exist Please Login" });
   }
   try {
     bcrypt.hash(password, 8, async function (err, hash) {
       if (err) {
-        return res.json({ status: "User not Created" });
+        return res.json({ message: "User not Created" });
       }
       const user = await UserModel.create({
         firstName,
@@ -49,7 +49,7 @@ userController.post("/signup", async (req, res) => {
         password: hash,
        
       });
-      res.json({ status: "User Signup SuccessFully", newUser: lastName });
+      res.json({ message: "User Signup SuccessFully", newUser: lastName });
     });
   } catch (err) {
     console.log(err);
@@ -69,8 +69,6 @@ userController.post("/login", async (req, res) => {
     return res.json({message:"User not found Please Signup first"})
   }
 
-  
- 
   const hashed_password = user.password;
   try {
     bcrypt.compare(password, hashed_password, async function (err, result) {

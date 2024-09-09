@@ -95,7 +95,7 @@ productController.get("/", async (req, res) => {
     }
 
     
-  // Pagination functionality ends here
+  // Pagination functionality endsq here
 
     if (sortBy === "price" && order === "asc") {
       products = await ProductModel.find().sort({ price: 1 });

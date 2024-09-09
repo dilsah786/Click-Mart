@@ -3,6 +3,9 @@ require("dotenv").config();
 
 const authentication = (req, res, next) => {
   const authToken = req.headers.authorization;
+
+  console.log(authToken);
+
   if (!authToken) {
     return res.json({ status:"Un - Authorized",message: "Please Login First" });
   }
