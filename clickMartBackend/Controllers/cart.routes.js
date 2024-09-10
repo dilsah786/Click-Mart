@@ -31,7 +31,7 @@ cartController.post("/add_item_in_cart", async (req, res) => {
     oldPrice,
     price,
     description,
-    category,
+    category, 
     image,
     rating,
     brand,
