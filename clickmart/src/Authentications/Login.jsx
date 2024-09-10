@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import bgImage from "../assets/bg-2.png";
 import { Link, Navigate } from "react-router-dom";
+
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -16,11 +18,7 @@ const Login = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-//   const apiUrl = import.meta.env.VITE_API_URL;
 
-//   console.log(apiUrl);
-
-console.log(token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,15 +43,12 @@ console.log(token);
     }
   };
 
-  console.log(message);
-
-  if(message){
-  return  alert(message)
-  }
-
   if(token){
-    return <Navigate to={"/"} />
+    return <Navigate to="/"/>
+  }else{
+    <Navigate to="/signup"/>
   }
+  
 
 
   return (

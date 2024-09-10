@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
+import Landing from "./Landing";
 // import { ThemeContext } from "../context/ThemeContext"; // Assuming you're using ThemeContext
 
 const HomePage = () => {
   // const { theme } = useContext(ThemeContext); // Light or dark theme context
-  const theme = "dark";
+  const theme = "light";
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,10 +12,9 @@ const HomePage = () => {
 
   // const token = localStorage.getItem('authToken'); // Replace with your token storage logic
 
-
   const fetchData = async (token) => {
     try {
-      const result = await fetch("http://localhost:8080/products", {
+      const result = await fetch("http://localhost:8080/products?page=1&limit=12", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -32,6 +32,8 @@ const HomePage = () => {
     }
   };
 
+ 
+
   useEffect(() => {
     let localToken = JSON.parse(localStorage.getItem("authToken"));
     if(!localToken){
@@ -45,6 +47,8 @@ const HomePage = () => {
 
   }, [token]);
 
+  console.log(token);
+
   if (loading) return <div className="text-center py-10">Loading...</div>;
   if (error)
     return <div className="text-center py-10">Error: {error.message}</div>;
@@ -57,6 +61,7 @@ const HomePage = () => {
           : "bg-gray-100 text-gray-800"
       }`}
     >
+    <Landing/>
       <div className="max-w-screen-xl mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-12">

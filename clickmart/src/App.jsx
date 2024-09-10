@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import Login from "./Authentications/Login";
 import Signup from "./Authentications/Signup";
 import Footer from "./Components/Footer";
@@ -6,6 +7,8 @@ import Sidebar from "./Components/Sidebar";
 import AllRoutes from "./Routings/AllRoutes";
 
 export default function App() {
+  
+
   return (
     <div>
       <Navbar />
@@ -14,6 +17,7 @@ export default function App() {
         <AllRoutes />
       </div>
       <Footer />
+      
     </div>
   );
 }
