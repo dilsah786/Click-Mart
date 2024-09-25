@@ -22,6 +22,8 @@ cartController.get("/all_cart_items", async (req, res) => {
 cartController.post("/add_item_in_cart", async (req, res) => {
   const { id, userId } = req.body;
 
+  console.log(id);
+
   let cartCount = 0;
   const singleItem = await ProductModel.findOne({ _id: id });
   const {
@@ -43,6 +45,10 @@ cartController.post("/add_item_in_cart", async (req, res) => {
     return res.json({ message: "Item already  exist in cart" });
   }
 
+
+  console.log(id);
+
+
   try {
     cartCount++;
     const newItemInCart = await CartModel.create({
@@ -59,6 +65,8 @@ cartController.post("/add_item_in_cart", async (req, res) => {
       userId,
       cartCount,
     });
+
+
 
     res.json({ itemIs: newItemInCart });
   } catch (err) {
