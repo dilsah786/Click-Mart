@@ -1,130 +1,128 @@
-import React, { useEffect, useState, useContext } from "react";
-import Landing from "./Landing";
-// import { ThemeContext } from "../context/ThemeContext"; // Assuming you're using ThemeContext
+import React, { useState, useEffect } from "react";
+import axios from "axios"; // You can also use fetch, but axios is used here for simplicity
+import { json, Link } from "react-router-dom";
+import { useContext } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import BannerCarousel from "../Components/BannerCrousel";
+// import { ThemeContext } from "../context/ThemeContext"; // Assuming you're using a theme context
 
 const HomePage = () => {
-  // const { theme } = useContext(ThemeContext); // Light or dark theme context
-  const theme = "light";
-  const [data, setData] = useState([]);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [token, setToken] = useState(null);
-
-  // const token = localStorage.getItem('authToken'); // Replace with your token storage logic
-
-  const fetchData = async (token) => {
-    try {
-      const result = await fetch("http://localhost:8080/products?page=1&limit=12", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      const res = await result.json();
-      console.log(res);
-      setData(res.data);
-      setLoading(false);
-    } catch (error) {
-      setError(error);
-      setLoading(false);
-    }
-  };
-
- 
+  const theme = "dark";
+  // const { theme } = useContext(ThemeContext); // Using theme context for light and dark mode
 
   useEffect(() => {
-    let localToken = JSON.parse(localStorage.getItem("authToken"));
-    if(!localToken){
-      return alert("Please login first")
-    }
-    if (localToken) {
-      setToken(localToken);
-    } 
+    AOS.init()
+  }, []);
 
-    fetchData(token);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem("authToken")); // You will need to replace this with the actual token
+        console.log(token);
 
-  }, [token]);
+        const response = await axios.get("http://localhost:8080/products", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setProducts(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        setError("Error fetching products");
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
-  console.log(token);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  if (loading) return <div className="text-center py-10">Loading...</div>;
-  if (error)
-    return <div className="text-center py-10">Error: {error.message}</div>;
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div
-      className={`min-h-screen py-12 lg:mt-28 md:mt-24 mt-16 px-6 ${
-        theme === "dark"
-          ? "bg-gray-900 text-white"
-          : "bg-gray-100 text-gray-800"
-      }`}
+      className={`${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-800"
+      } min-h-screen`}
     >
-    <Landing/>
-      <div className="max-w-screen-xl mx-auto">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Welcome to Our Shop</h1>
-          <p
-            className={`text-lg leading-relaxed ${
-              theme === "dark" ? "text-gray-400" : "text-gray-600"
-            }`}
-          >
-            Discover our latest products and offers. Shop now and enjoy
-            exclusive discounts!
-          </p>
-        </div>
+      {/* Banner Section */}
+      {/* <div className="w-full bg-gray-300 h-64 flex items-center justify-center">
+        <h1 className="text-4xl font-bold">Welcome to ClickMart</h1>
+      </div> */}
+      <BannerCarousel/>
 
-        {/* Featured Products */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-semibold mb-6">Featured Products</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {data?.map((product) => {
-              return (
-                <div className="" key={product._id}>
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-40 h-40 object-cover rounded-t-md"
-                  />
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold">{product.title}</h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      {product.price}
-                    </p>
-                    <button
-                      className={`mt-4 w-full px-4 py-2 text-white font-bold rounded-md ${
-                        theme === "dark"
-                          ? "bg-blue-600 hover:bg-blue-500"
-                          : "bg-blue-500 hover:bg-blue-400"
-                      }`}
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Promotional Section */}
-        <div className="bg-blue-500 text-white rounded-lg py-6 px-8 text-center mb-12">
-          <h2 className="text-2xl font-bold mb-4">Special Offer</h2>
-          <p className="text-lg">
-            Don't miss out on our special promotion! Enjoy 20% off on all
-            products for a limited time.
-          </p>
-          <button
-            className={`mt-4 px-4 py-2 bg-white text-blue-500 font-bold rounded-md ${
-              theme === "dark"
-                ? "bg-gray-700 text-white"
-                : "bg-gray-100 text-gray-900"
-            }`}
+      {/* Categories Section */}
+      <div className="max-w-screen-xl mx-auto py-8 px-4">
+        <h2 className="text-2xl font-semibold mb-6">Shop by Category</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {/* Example category links */}
+          <Link
+            to="/category/electronics"
+            className="bg-blue-100 p-4 rounded-lg text-center"
           >
-            Shop Now
-          </button>
+            Electronics
+          </Link>
+          <Link
+            to="/category/fashion"
+            className="bg-blue-100 p-4 rounded-lg text-center"
+          >
+            Fashion
+          </Link>
+          <Link
+            to="/category/home-appliances"
+            className="bg-blue-100 p-4 rounded-lg text-center"
+          >
+            Home Appliances
+          </Link>
+          <Link
+            to="/category/books"
+            className="bg-blue-100 p-4 rounded-lg text-center"
+          >
+            Books
+          </Link>
+        </div>
+      </div>
+
+      {/* Product Section */}
+      <div className="max-w-screen-xl mx-auto py-8 px-4">
+        <h2 className="text-2xl font-semibold mb-6">Featured Products</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {products?.map((product) => (
+            <div
+              
+              key={product._id}
+              className="border p-4 rounded-lg hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+            >
+            <div key={product._id} data-aos="fade-up">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="w-full h-40 object-cover mb-4"
+                
+              />
+              <h3 className="text-lg font-semibold">{product.name}</h3>
+              <p className="text-gray-600">{product.category}</p>
+              <p className="text-xl font-bold line-through">
+                ${product.oldPrice}
+              </p>
+              <p className="text-xl font-bold">${product.price}</p>
+              <Link
+                to={`/products/${product._id}`}
+                className="block mt-4 bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600"
+              >
+                View Details
+              </Link>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

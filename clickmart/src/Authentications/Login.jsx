@@ -72,7 +72,7 @@ const Login = () => {
                 placeholder="xyz@gmail.com"
               />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col">         
               <label className="text-2xl font-semibold mb-2">Password</label>
               <input
                 value={formData.password}
