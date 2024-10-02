@@ -50,7 +50,7 @@ const HomePage = () => {
   return (
     <div
       className={`${
-        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-800"
+        theme === "" ? "bg-gray-900 text-white" : "bg-white text-gray-800"
       } min-h-screen`}
     >
       {/* Banner Section */}
