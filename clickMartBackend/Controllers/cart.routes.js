@@ -9,7 +9,9 @@ const cartController = express.Router();
 
 cartController.get("/all_cart_items", async (req, res) => {
   const { userId } = req.body;
+
   try {
+    // const all_cart_items = await CartModel.find();
     const all_cart_items = await CartModel.find({ userId });
     return res.json({ message: "success", items: all_cart_items });
   } catch (err) {
@@ -22,18 +24,16 @@ cartController.get("/all_cart_items", async (req, res) => {
 cartController.post("/add_item_in_cart", async (req, res) => {
   const { id, userId } = req.body;
 
-  console.log(id);
-
-  let cartCount = 0;
+  let quantity = 0;
   const singleItem = await ProductModel.findOne({ _id: id });
   const {
-    _id,
+    // _id,
     title,
     isNewProduct,
     oldPrice,
     price,
     description,
-    category, 
+    category,
     image,
     rating,
     brand,
@@ -42,15 +42,13 @@ cartController.post("/add_item_in_cart", async (req, res) => {
   const existingItemInCart = await CartModel.findOne({ id: id, userId });
 
   if (existingItemInCart) {
-    return res.json({ message: "Item already  exist in cart" });
+    return res.json({ message: ` ${title} already  exist in cart` });
   }
-
 
   console.log(id);
 
-
   try {
-    cartCount++;
+    quantity++;
     const newItemInCart = await CartModel.create({
       id: id,
       title,
@@ -63,36 +61,42 @@ cartController.post("/add_item_in_cart", async (req, res) => {
       rating,
       brand,
       userId,
-      cartCount,
+      quantity,
     });
 
-
-
-    res.json({ itemIs: newItemInCart });
+    res.json({
+      message: ` ${item} added to cart `,
+      itemIs: newItemInCart,
+    });
   } catch (err) {
     console.log(err);
   }
 });
 
-//  Updaing items in the cart
+//  Updating items in the cart
 
 cartController.patch("/update_item_in_cart", async (req, res) => {
   const { id, count, userId } = req.body;
   console.log(id);
-
+console.log(id,count,userId);
   const singleItem = await CartModel.findOne({ id: id, userId: userId });
+
+  let { quantity, title } = singleItem;
+
   console.log(singleItem);
-  let { cartCount } = singleItem;
 
   try {
-    cartCount += count;
+    quantity += count;
     const newItemInCart = await CartModel.findOneAndUpdate(
       { id, userId },
-      { cartCount },
+      { quantity:quantity},
       { new: true }
     );
 
-    res.json({ itemIs: newItemInCart });
+    res.json({
+      message: `${title} quantity updated Successfully`,
+      Updated_Cart_Item_Is: newItemInCart,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -106,6 +110,7 @@ cartController.delete("/delete_item_in_cart", async (req, res) => {
     return re.json({ message: "Please select a new item" });
   }
 
+  // const singleItem = await CartModel.findOne({ id: id });
   const singleItem = await CartModel.findOne({ id: id, userId: userId });
   if (!singleItem) {
     return res.json({ message: "No such item exists in cart" });
@@ -113,6 +118,7 @@ cartController.delete("/delete_item_in_cart", async (req, res) => {
   const { title } = singleItem;
 
   try {
+    // const newItemInCart = await CartModel.findOneAndDelete({ id });
     const newItemInCart = await CartModel.findOneAndDelete({ id, userId });
 
     res.json({

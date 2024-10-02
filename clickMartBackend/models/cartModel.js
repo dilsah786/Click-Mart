@@ -13,7 +13,7 @@ const cartSchema = mongoose.Schema({
   rating: { type: Number },
   brand: { type: String },
   userId: { type: String, required: true },
-  cartCount: { type: Number, required: true },
+  quantity: { type: Number, required: true },
 });
 
 const CartModel = mongoose.model("cart", cartSchema);
