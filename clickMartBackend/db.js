@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-const connection = mongoose.connect("mongodb+srv://dilsah786:dilsah786@cluster0.z3e3wgc.mongodb.net/clickMart")
+
+
+
+const connection = mongoose.connect(process.env.MONGODB_URL);
 
 module.exports = {connection} 
