@@ -19,16 +19,15 @@ app.get("/", async (req, res) => {
 
 app.use("/user", userController);
 app.use(authentication); // Middleware for authentication
- 
+
 app.use("/products", productController);
 app.use("/products/cart", cartController);
-app.use("/products/wishlist", wishlistController);
+app.use("/user/wishlist", wishlistController);
 app.use("/user/address", addressController);
 
 // app running and connection to mongoDB methos is here
 
-
-app.listen(process.env.PORT || 8080, async () => { 
+app.listen(process.env.PORT || 8080, async () => {
   try {
     await connection;
     console.log("I am connected to mongoDB database");
@@ -37,4 +36,3 @@ app.listen(process.env.PORT || 8080, async () => {
   }
   console.log("I am running on port 8080");
 });
- 
