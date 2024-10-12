@@ -15,6 +15,7 @@ import ShippingPolicy from "../Components/ShippingPolicy";
 import ReturnsAndRefunds from "../Components/ReturnsAndRefunds";
 import ContactUs from "../Components/Contact";
 import FAQs from "../Components/FAQs";
+import WishlistPage from "../Pages/WIshListPage";
 
 const AllRoutes = () => {
   return (
@@ -23,7 +24,7 @@ const AllRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/cart-page" element={<CartPage />} />
-      <Route path="/wishlist" element={<WIshListPage />} />
+      <Route path="/wishlist" element={<WishlistPage />} />
       <Route path="/addresses" element={<AddressPage />} />
       <Route path="/products" element={<ProductPage />} />
       <Route path="/products/:id" element={<SingleProduct />} />

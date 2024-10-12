@@ -266,12 +266,14 @@ const CartPage = () => {
                   ${(totalPrice * 1.1).toFixed(2)}
                 </span>
               </div>
-              <button
+             <Link to="/addresses">
+             <button
                 onClick={handleCheckout}
                 className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 transition duration-300"
               >
                 Proceed to Checkout
               </button>
+             </Link>
               <Link
                 to="/shop"
                 className="block text-center mt-4 text-blue-500 hover:underline"
